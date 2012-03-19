@@ -1,8 +1,9 @@
 # pre-commit.sh
+test -z "${GIT_DIR}" && GITDIR="`pwd`/.git"
 # Stash changes
 git stash -q --keep-index
 # Run any `GITDIR`/hooks/pre-commit.* script
-for hook in ${GITDIR}/hooks/pre-commit.*; do
+for hook in ${GIT_DIR}/hooks/pre-commit.*; do
     if test -x ${hook}; then
         ${hook}
     fi
