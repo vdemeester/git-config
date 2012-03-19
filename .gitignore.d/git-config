@@ -1,3 +1,5 @@
 *
+!.git-hooks
+!.git-hooks/pre-commit.sh
 !.gitignore.d
 !.gitignore.d/git-config
