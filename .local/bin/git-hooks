@@ -64,7 +64,7 @@ function hook_dirs
 # It looks for scripts that have the executable bit set.
 function list_hooks_in_dir
 {
-    find -L "${1}/" -perm +111 -type f 2>/dev/null | grep -v "^.$" | sort
+    find -L "${1}/" -perm +111 -type f -o -path ${GIT_HOOK_HOOKS} -prune 2>/dev/null | grep -v "^.$" | sort
 }
 
 function run_hooks
@@ -77,6 +77,10 @@ function run_hooks
     shift 1
     for hook in `list_hooks_in_dir "${dir}"`
     do
+        if [ -d "${hook}" ] ; then
+            # Skipping folders
+            continue
+        fi
         export last_run_hook="${hook} $@"
         if [ ! -z ${GIT_HOOKS_VERBOSE} ] ; then
             echo -n "@@ Running hook: "
@@ -157,6 +161,9 @@ function list_hooks
     for dir in `hook_dirs`; do
         echo "${dir}:"
         for hook in `list_hooks_in_dir "${dir}"` ; do
+            if [ -d "${hook}" ] ; then
+                continue
+            fi
             echo -n `basename \`dirname "${hook}"\``
             echo -e "/`basename "${hook}"` \t- `${hook} --about`"
         done
@@ -165,11 +172,11 @@ function list_hooks
 }
 
 function run_hook_hook {
-    hook=`basename $1`
+    hook_hook=`basename $1`
     type=$2
-    if test -x ${GIT_HOOK_HOOKS}/${hook}.${type}; then
-        echo "> Running ${hook}.${type}"
-        ${GIT_HOOK_HOOKS}/${hook}.${type}
+    if test -x ${GIT_HOOK_HOOKS}/${hook_hook}.${type}; then
+        echo "> Running ${hook_hook}.${type}"
+        ${GIT_HOOK_HOOKS}/${hook_hook}.${type}
     fi
 }
 

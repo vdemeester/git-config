@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 run_test() {
     # re apply stashed files
     git stash pop -q
