@@ -2,6 +2,8 @@
 #
 # Copyright (c) 2010-2012, Benjamin C. Meyer <ben@meyerhome.net>
 # All rights reserved.
+# Copyright (c) 2012, Vincent Demeester <vincent@demeester.fr>
+# All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -26,6 +28,17 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+#
+[ -z "$GIT_HOOK_HOOKS" ] && GIT_HOOK_HOOKS="$HOME/.git-hooks/0_hooks"
+
+# This function return hook folder list where to find hooks
+# It checks :
+# - $HOME/.git-hooks → globals
+# - $GIT_DIR/.git-hooks → locals
+# - $GIT_DIR/git-hooks → shared locals
+# It will also deals with `GIT_DIR` and `GIT_WORK_TREE` environment variables.
+# If `GIT_DIR` and `GIT_WORK_TREE` are set, we will be looking for hooks at
+# `$GIT_WORK_TREE/.git-hooks` and `$GIT_WORK_TREE/git-hooks`.
 function hook_dirs
 {
     if [ ! -z "${1}" ] ; then
@@ -34,14 +47,21 @@ function hook_dirs
         hook=""
     fi
     echo "${HOME}/.git-hooks${hook}"
-    GITDIR=`git rev-parse --git-dir`
-    cd $GITDIR/..
-    echo "${PWD}/git-hooks${hook}"
-    echo "${PWD}/git_hooks${hook}"
-    echo "${PWD}/.githooks${hook}"
+    HOOK_PARENT_DIR=""
+    if test -z "${GIT_DIR}"; then
+        GITDIR=`git rev-parse --git-dir`
+        cd $GITDIR/..
+        HOOK_PARENT_DIR="${PWD}"
+    elif ! test -z "${GIT_WORK_TREE}"; then
+        HOOK_PARENT_DIR="${GIT_WORK_TREE}"
+    fi
+    echo "${HOOK_PARENT_DIR}/git-hooks${hook}"
+    echo "${HOOK_PARENT_DIR}/.githooks${hook}"
     eval echo "`git config hooks.global`"${hook}
 }
 
+# List hooks in dir.
+# It looks for scripts that have the executable bit set.
 function list_hooks_in_dir
 {
     find -L "${1}/" -perm +111 -type f 2>/dev/null | grep -v "^.$" | sort
@@ -76,12 +96,20 @@ function run_hook
         return 1
     fi
     shift 1
+    echo "${GIT_HOOK_HOOKS}/${hook}.pre"
+    if test -x ${GIT_HOOK_HOOKS}/${hook}.pre; then
+        ${GIT_HOOK_HOOKS}/${hook}.pre
+    fi
     for dir in `hook_dirs "${hook}"`; do
         if [ ! -d "${dir}" ] ; then
             continue
         fi
         run_hooks "${dir}" "$@"
     done
+    echo "${GIT_HOOK_HOOKS}/${hook}.post"
+    if test -x ${GIT_HOOK_HOOKS}/${hook}.post; then
+        ${GIT_HOOK_HOOKS}/${hook}.post
+    fi
     set +e
 }
 

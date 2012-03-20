@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -e
+
+run_test() {
+    # re apply stashed files
+    git stash pop -q
+}
+
+case "${1}" in
+    --about )
+        echo "pre-commit post hook"
+        ;;
+    * )
+        run_test
+        ;;
+esac
+

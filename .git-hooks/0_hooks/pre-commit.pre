@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e
+
+run_test() {
+    # Stash changes
+    git stash -q --keep-index
+}
+
+case "${1}" in
+    --about )
+        echo "pre-commit post hook"
+        ;;
+    * )
+        run_test
+        ;;
+esac
