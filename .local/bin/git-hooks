@@ -96,20 +96,15 @@ function run_hook
         return 1
     fi
     shift 1
-    echo "${GIT_HOOK_HOOKS}/${hook}.pre"
-    if test -x ${GIT_HOOK_HOOKS}/${hook}.pre; then
-        ${GIT_HOOK_HOOKS}/${hook}.pre
-    fi
+    export current_hook="${hook}"
+    run_hook_hook ${hook} "pre"
     for dir in `hook_dirs "${hook}"`; do
         if [ ! -d "${dir}" ] ; then
             continue
         fi
         run_hooks "${dir}" "$@"
     done
-    echo "${GIT_HOOK_HOOKS}/${hook}.post"
-    if test -x ${GIT_HOOK_HOOKS}/${hook}.post; then
-        ${GIT_HOOK_HOOKS}/${hook}.post
-    fi
+    run_hook_hook ${hook} "post"
     set +e
 }
 
@@ -169,10 +164,28 @@ function list_hooks
     done
 }
 
+function run_hook_hook {
+    hook=`basename $1`
+    type=$2
+    if test -x ${GIT_HOOK_HOOKS}/${hook}.${type}; then
+        echo "> Running ${hook}.${type}"
+        ${GIT_HOOK_HOOKS}/${hook}.${type}
+    fi
+}
+
 function report_error {
     echo "Hook failed: $last_run_hook"
+    run_hook_hook "$current_hook" "post"
     exit 1
 }
+
+# The `trap' builtin (*note Bourne Shell Builtins::) allows an `ERR'
+#pseudo-signal specification, similar to `EXIT' and `DEBUG'.
+#Commands specified with an `ERR' trap are executed after a simple
+#command fails, with a few exceptions.  The `ERR' trap is not
+#inherited by shell functions unless the `-o errtrace' option to
+#the `set' builtin is enabled.
+set -o errtrace
 
 case $1 in
     run )
