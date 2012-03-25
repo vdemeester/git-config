@@ -1,6 +1,6 @@
 #!/bin/bash
 
-confdir=$HOME/.config/.git
+confdir=$HOME/.config/git
 confsubdir=$confdir/config.d
 config=$HOME/.gitconfig
 
@@ -9,6 +9,7 @@ config=$HOME/.gitconfig
 # ZDOTDIR should always be set
 source "$ZDOTDIR/lib/libhooks.sh"
 
+echo "rebuild_config \"$config\" \"${confsubdir#$HOME/}\""
 rebuild_config "$config" "${confsubdir#$HOME/}"
 
 chmod go-rwx -R $config $confdir $confsubdir
