@@ -10,5 +10,11 @@
 !.git-hooks
 !.git-hooks/*
 !.git-hooks/*/*
+!.config
+!.config/git
+!.config/git/config.d
+!.config/git/config.d/00-default
+!.cfg-post.d
+!.cfg-post.d/git-config
 !.gitignore.d
 !.gitignore.d/git-config

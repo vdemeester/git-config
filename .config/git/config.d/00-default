@@ -1,0 +1,57 @@
+# vim: syntax=gitconfig
+[user]
+	name = Vincent Demeester
+	email = vincent+git@demeester.fr
+[alias]
+	co = checkout
+	st = status
+	ci = commit
+	civ = commit -v
+	br = branch
+    unstage = reset HEAD
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+    lga = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative --branches --remotes
+    lol = log --pretty=oneline --abbrev-commit --graph --decorate
+    conflicts = !git ls-files --unmerged | cut -c51- | sort -u | xargs $EDITOR
+    resolve = !git ls-files --unmerged | cut -c51- | sort -u | xargs git add
+    # submodule aliases
+    # git diff on each submodule
+    subdiff = !"git submodule foreach --recursive --quiet '[ \"$(git status -s)\" ] && echo \"--- $name ---\" && git status -s && git diff --unified=1 || :'"
+    # on which branch is the submodule
+    subbranch = !"git submodule foreach --recursive 'git rev-parse --abbrev-ref HEAD'"
+    # Search for a given string in all patches and print commit messages
+    # example: search for any commit that adds or removes string "foobar"
+    #     git searchcommits foobar
+    # example: search commits for string "foobar" in directory src/lib
+    #     git searchcommits foobar src/lib
+    # example: search commits for "foobar", print full diff of commit with 1 line context
+    #     git searchcommits foobar --pickaxe-all -U1 src/lib
+    searchcommits = "!f() { query=\"$1\"; shift; git log -S\"$query\" \"$@\"; }; f \"$@\""
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+[color "branch"]
+	current = white reverse
+	local = white 
+	remote = green
+[color "diff"]
+	meta = white
+	frag = magenta reverse
+	old = red 
+	new = green 
+[color "status"]
+	added = green
+	changed = yellow
+	untracked = red
+[core]
+	editor = gvim -v
+	excludesfile = ~/.gitignore_global
+[push]
+	default = matching
+[gui]
+	editor = gvim
+[merge]
+    tool = vimdiff
+[url "git@nofau.lt:"]
+    pushInsteadOf = git://nofau.lt/
