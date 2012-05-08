@@ -16,5 +16,8 @@
 !.config/git/config.d/00-default
 !.cfg-post.d
 !.cfg-post.d/git-config
+!.sh
+!.sh/completions
+!.sh/completions/_git*
 !.gitignore.d
 !.gitignore.d/git-config
