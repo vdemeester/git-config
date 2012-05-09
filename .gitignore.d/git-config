@@ -7,6 +7,7 @@
 !bin/git-update-all
 !bin/git-hooks
 !bin/gh-pages
+!bin/git-url-rewrite
 !.git-hooks
 !.git-hooks/*
 !.git-hooks/*/*
