@@ -45,7 +45,7 @@
 	changed = yellow
 	untracked = red
 [core]
-	editor = gvim -v
+	editor = vim_wrapper --remote-wait
 	excludesfile = ~/.gitignore_global
 [push]
 	default = matching
