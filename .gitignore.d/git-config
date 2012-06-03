@@ -8,9 +8,9 @@
 !bin/git-hooks
 !bin/gh-pages
 !bin/git-url-rewrite
-!.git-hooks
-!.git-hooks/*
-!.git-hooks/*/*
+!.config/git/hooks
+!.config/git/hooks/*
+!.config/git/hooks/*/*
 !.config
 !.config/git
 !.config/git/config.d

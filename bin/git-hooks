@@ -29,7 +29,7 @@
 #
 
 #
-[ -z "$GIT_HOOK_HOOKS" ] && GIT_HOOK_HOOKS="$HOME/.git-hooks/0_hooks"
+[ -z "$GIT_HOOK_HOOKS" ] && GIT_HOOK_HOOKS="$HOME/.config/git/hooks/0_hooks"
 
 # This function return hook folder list where to find hooks
 # It checks :
