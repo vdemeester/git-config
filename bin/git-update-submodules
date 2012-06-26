@@ -7,12 +7,15 @@ machine=`hostname`
 datetime=$(date +"%Y%m%d-%H%M")
 
 foreach() {
-    git submodule foreach $*
+    submodule foreach $*
+}
+submodule() {
+    git submodule $*
 }
 
-foreach init
-foreach sync
-foreach update
+submodule init
+submodule sync
+submodule update
 foreach git-checkout -t origin/develop -B develop
 foreach git pull
 
