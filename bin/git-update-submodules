@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+# Update git submodules in one command
+# @author Vincent Demeester
+
+machine=`hostname`
+datetime=$(date +"%Y%m%d-%H%M")
+
+foreach() {
+    git submodule foreach $*
+}
+
+foreach init
+foreach sync
+foreach update
+foreach git-checkout -t origin/develop -B develop
+foreach git pull
+
+# Auto-commit
+if test -n "$(git status --porcelain)"; then
+    git add .
+    git ci -m "[submodules] auto-update from ${machine} at ${datetime}"
+fi

@@ -8,6 +8,7 @@
 !bin/git-hooks
 !bin/gh-pages
 !bin/git-url-rewrite
+!bin/git-update-submodules
 !.config/git/hooks
 !.config/git/hooks/*
 !.config/git/hooks/*/*
