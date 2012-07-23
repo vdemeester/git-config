@@ -1,0 +1,19 @@
+#!/bin/sh
+
+mvn_test() {
+    command -v mvn >/dev/null && {
+        WORKING_DIR=$(git rev-parse --show-toplevel)
+        if test -e "$WORKING_DIR/pom.xml"; then
+            mvn -q test
+        fi
+    }
+}
+
+case "$1" in
+    --about )
+        echo "Run maven tests at commit"
+        ;;
+    * )
+        mvn_test
+        ;;
+esac
