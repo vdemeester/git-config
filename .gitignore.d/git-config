@@ -5,7 +5,6 @@
 !bin/git-ignore
 !bin/git-thanks
 !bin/git-update-all
-!bin/git-hooks
 !bin/gh-pages
 !bin/git-url-rewrite
 !bin/git-update-submodules
