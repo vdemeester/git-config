@@ -1,0 +1,12 @@
+#!/bin/sh -e
+case "${1}" in
+    --about )
+        echo "check *.xml and *.xsl files using xmllint"
+        ;;
+    * )
+        for FILE in $(git diff --cached --diff-filter=ACMTR --name-only HEAD | grep -E '\.xml|\.xsl'); do
+echo xmllint --noout $FILE;
+            xmllint --noout $FILE;
+        done
+        ;;
+esac
