@@ -4,7 +4,6 @@ lib=
 checkout = github_clone
 
 [RichiH/vcsh]
-[apenwarr/git-subtree]
 [aspiers/git-config]
 [aspiers/mr-config]
 [aspiers/scripts]
