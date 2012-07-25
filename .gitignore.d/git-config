@@ -1,7 +1,11 @@
 *
 !bin
 !bin/git-*
+!bin/github-*
 !bin/gfind
+!src
+!src/github
+!src/github/.mrconfig
 !.config
 !.config/git
 !.config/git/config.d

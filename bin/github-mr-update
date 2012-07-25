@@ -1,0 +1,26 @@
+#!/bin/sh
+# Update ~github/.mrconfig from current checkout(ed) folders
+#
+ROOT_FOLDER="$1"
+test -z "$ROOT_FOLDER" && ROOT_FOLDER="$HOME/src/github"
+CONFIG_FILE="$ROOT_FOLDER/.mrconfig"
+
+# 1. Backup it
+if test -e $CONFIG_FILE; then
+    mv -v "$CONFIG_FILE" "$CONFIG_FILE.$(date +%Y%m%d%H%M)"
+fi
+# 2. Rewrite it
+cat > $CONFIG_FILE << EOF
+[DEFAULT]
+lib=
+    GITHUB_USER=\$(basename \${MR_REPO%/\${MR_NAME}})
+checkout = github_clone
+
+EOF
+# 3. Add repositories
+cd $ROOT_FOLDER
+for user in *; do
+    for project in $user/*; do
+        echo "[$project]" >> $CONFIG_FILE
+    done
+done
