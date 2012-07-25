@@ -1,13 +1,7 @@
 *
 !bin
-!bin/git-cut-branch
-!bin/git-github-grab
-!bin/git-ignore
-!bin/git-thanks
-!bin/git-update-all
-!bin/gh-pages
-!bin/git-url-rewrite
-!bin/git-update-submodules
+!bin/git-*
+!bin/gfind
 !.config
 !.config/git
 !.config/git/config.d
