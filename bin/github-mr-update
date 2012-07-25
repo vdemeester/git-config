@@ -21,6 +21,8 @@ EOF
 cd $ROOT_FOLDER
 for user in *; do
     for project in $user/*; do
-        echo "[$project]" >> $CONFIG_FILE
+        if test -d $project; then
+            echo "[$project]" >> $CONFIG_FILE
+        fi
     done
 done
