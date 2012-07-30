@@ -4,6 +4,7 @@ mvn_test() {
     command -v mvn >/dev/null && {
         WORKING_DIR=$(git rev-parse --show-toplevel)
         if test -e "$WORKING_DIR/pom.xml"; then
+            echo ">> Running mvn -q test"
             mvn -q test
         fi
     }
