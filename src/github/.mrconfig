@@ -11,6 +11,7 @@ checkout = github_clone
 [git-deploy/git-deploy]
 [git-deploy/git-deploy.github.com]
 [holman/spark]
+[hubuntub/vaadin-tabsheet]
 [infochimps-labs/chimpstation-homebase]
 [infochimps-labs/configliere]
 [infochimps-labs/iron_cuke]
