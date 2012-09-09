@@ -22,6 +22,8 @@ checkout = github_clone
 [infochimps-labs/ironfan-repoman]
 [infochimps-labs/style_guide]
 [jedi4ever/veewee]
+[jordansissel/experiments]
+[jordansissel/fpm]
 [kennethreitz/autoenv]
 [larrycai/doxia-module-markdown]
 [mcedit/MCEdit-schematics]
