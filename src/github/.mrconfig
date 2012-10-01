@@ -3,11 +3,13 @@ lib=
     GITHUB_USER=$(basename ${MR_REPO%/${MR_NAME}})
 checkout = github_clone
 
+[Dieterbe/uzbl]
 [RichiH/vcsh]
 [aspiers/git-config]
 [aspiers/mr-config]
 [aspiers/scripts]
 [aspiers/shell-env]
+[chjj/compton]
 [git-deploy/git-deploy]
 [git-deploy/git-deploy.github.com]
 [holman/spark]
