@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# git Outgoing
+
+upstream="`git upstream`" || exit 1  # git upstream will display the error
+
+if [ -t 1 ]; then
+    echo "HEAD is `ggde`"
+    echo -e "Upstream is $upstream\n"
+fi
+
+git log "$@" "$upstream"..HEAD

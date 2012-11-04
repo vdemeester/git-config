@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ "$1" == --help ]; then
+    exec git branch "$@"
+fi
+
+if git branch -h 2>&1 | grep -q -- '--color\[='; then
+    color=--color=always
+else
+    if [ -t 1 ]; then
+        color=--color
+    else
+        color=
+    fi
+fi
+
+exec git branch -vv $color "$@" | trim-lines

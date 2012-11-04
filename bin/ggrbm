@@ -1,0 +1,100 @@
+#!/bin/bash
+
+me=`basename $0`
+
+usage () {
+    if [ -n "$1" ]; then
+        echo "$*" >&2
+        echo
+    fi
+
+    cat <<EOF >&2
+Usage: $me [BRANCH-CONFIG]
+BRANCH-CONFIG defaults to $wd/.git/topic-branches and takes the
+format:
+
+# Comments are allowed
+# Each line contains a set of arguments to pass to git rebase
+# e.g.
+trunk myroot
+myroot mytopic1
+myroot mytopic2
+EOF
+    exit 1
+}
+
+if [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
+    usage
+fi
+
+if [ "$1" == '-i' ]; then
+    interactive=-i
+    shift
+fi
+
+root="`git root`"
+if [ -z "$root" ]; then
+    echo "git root failed; aborting" >&2
+    exit 1
+fi
+
+if [ "$#" -gt 1 ]; then
+    usage
+elif [ "$#" -eq 1 ]; then
+    conf="$1"
+    shift
+elif [ "$#" -eq 0 ]; then
+    conf="$root/.git/topic-branches"
+fi
+
+if [ -e "$root/.git/rebase-apply" ]; then
+    echo "$me: rebase already in progress! aborting." >&2
+    exit 1
+fi
+
+if ! [ -e "$conf" ]; then
+    echo "$conf not found; aborting" >&2
+    exit 1
+fi
+
+orig_head=`git head`
+
+exec 3>&0 # save STDIN tty
+egrep -v '^ *(#|$)' "$conf" | while read -a args; do
+    range="${args[0]}..${args[1]}"
+    echo "Checking for whitespace errors in $range"
+    if ! ggdcm "$range"; then
+        echo -n "Hit enter to continue regardless ... "
+        read <&3
+        echo
+    fi
+
+    echo
+    echo "git rebase $interactive ${args[*]}"
+    rebase_had_issues=
+    if ! git rebase $interactive "${args[@]}"; then
+        rebase_had_issues=y
+        while [ -e "$root/.git/rebase-apply" ]; do
+            echo
+            echo "git rebase ${args[@]} not completed."
+            echo "Please fix via git rebase --continue / --abort then exit shell."
+            bash <&3
+        done
+    fi
+    echo
+    if [ -z "$rebase_had_issues" ]; then
+        echo -n "git rebase ${args[*]} done"
+    else
+        echo -n "git rebase ${args[*]} done; hit enter to continue ... "
+        read <&3
+    fi
+    echo
+    echo ======================================================================
+done
+
+if [ -n "$orig_head" ]; then
+    echo "Checking out original HEAD ($orig_head) ... "
+    git checkout "$orig_head"
+else
+    echo "WARNING: Couldn't determine original HEAD; current HEAD is probably different".
+fi

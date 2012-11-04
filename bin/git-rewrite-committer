@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    set -- "`git upstream`"..HEAD
+fi
+
+git filter-branch -f --env-filter '. git-rewrite-committer-filter' "$@"

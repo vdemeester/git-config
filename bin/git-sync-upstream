@@ -1,0 +1,333 @@
+#!/bin/bash
+
+error () {
+    echo "$*" >&2
+    exit 1
+}
+
+is_interactive () {
+    [ -t 0 ]
+}
+
+repo_is_clean () {
+    # "clean" == nothing to do except maybe commit untracked files
+    # which would not be harmed by any git operations except git clean -f,
+    # which we won't be doing here!
+    [ -z "`git status --porcelain | egrep -v '^\?\?'`" ]
+}
+
+commit_local_changes () {
+    status=`git -c color.ui=always status -s "$@"`
+    if [ -z "$status" ]; then
+        return 0 # nothing to do
+    fi
+
+    echo "$status"
+    echo
+
+    if ! is_interactive; then
+        if repo_is_clean; then
+            : # we can still safely proceed with push/pull 
+            return 0
+        else
+            echo "Repo has uncommitted changes."
+            return 1
+        fi
+    fi
+
+    if [ -n "$DISPLAY" ]; then
+        echo "Launching git-gui; commit local changes before proceeding with sync ..."
+        echo "Press Control-C to cancel"
+        git gui
+    else
+        echo "\$DISPLAY not set so can't launch git-gui.  Launching $SHELL;"
+        echo "please commit changes via CLI then exit the shell."
+        $SHELL
+    fi
+}
+
+# Returns true if detected
+detect_upstream () {
+    head=`git head`
+    if ! upstream=`git upstream`; then
+        echo "Upstream not set for $head"
+
+        is_interactive || return 1
+
+        cat <<EOF
+
+Remotes already set:
+--------------------
+
+`git remote -v`
+
+Launching $SHELL; please set correct upstream for $head
+then hit Control-D to continue ...
+EOF
+        $SHELL
+    fi
+
+    if ! upstream=`git upstream 2>/dev/null`; then
+        echo 
+        echo "Upstream still not set for $head." >&2
+        return 1
+    fi
+
+    return 0
+}
+
+parse_upstream () {
+    local upstream="$1"
+
+    remote="${upstream%/*}"
+    remote_branch="${upstream#*/}"
+}
+
+compare_with_upstream () {
+    local upstream="$1"
+
+    # http://stackoverflow.com/questions/2969214/git-programmatically-know-by-how-much-the-branch-is-ahead-behind-a-remote-branc
+
+    set -- `git rev-list --count --left-right $upstream...HEAD`
+    behind="$1"
+    ahead="$2"
+}
+
+show_upstream_info () {
+    git remote -v show -n "$1"
+}
+
+confirm_action () {
+    action="$1"
+
+    while true; do
+        echo    "Enter 'y' to $action,"
+        echo -n "      's' to skip, or Control-C to abort > "
+        read answer
+        case "$answer" in
+            y) return 0 ;;
+            s) return 1 ;;
+        esac
+    done
+}
+
+pull_from_upstream () {
+    local upstream="$1"
+
+    echo
+    echo -e "\e[1;31m$head is behind $upstream by $behind commits:\e[0m"
+    echo
+    git log HEAD.."$upstream"
+
+    if is_interactive; then
+        pull_from_upstream_interactive "$upstream"
+    else
+        safe_merge_with_upstream_batch "$upstream"
+    fi
+}
+
+pull_from_upstream_interactive () {
+    local upstream="$1"
+
+    args="$remote $remote_branch"
+    echo
+    confirm_action "pull missing commits from $upstream" || return
+
+    echo "Running git pull $args ..."
+    echo
+    if ! git pull $args; then
+        error "git pull $args failed; aborting.  Please manually fix and re-run."
+    fi
+}
+
+safe_merge_with_upstream_batch () {
+    local upstream="$1"
+
+    if ! repo_is_clean; then
+        echo "Repo has uncommitted changes; cannot safely attempt automatic merge."
+        return 1
+    fi
+
+    git merge --no-commit --no-ff "$upstream"
+    status=$?
+    if git status --porcelain | egrep '^(U|.U)'; then
+        [ "$status" = 0 ] && error "git merge --no-commit succeeded with unmerged files?!"
+        echo
+        echo "In non-interactive mode; aborted merge."
+        git reset --hard
+        return 1
+    else
+        [ "$status" != 0 ] && error "git merge --no-commit failed with no unmerged files?!"
+        git reset --hard
+        git merge "$upstream" || error "batch git merge failed"
+    fi
+}
+
+rebase_on_upstream () {
+    local upstream="$1"
+
+    echo
+    echo -e "\e[1;31m$head is behind $upstream by $behind commits:\e[0m"
+    echo
+    git log HEAD.."$upstream"
+
+    if is_interactive; then
+        rebase_on_upstream_interactive "$upstream"
+    else
+        safe_merge_with_upstream_batch "$upstream"
+    fi
+}
+
+rebase_on_upstream_interactive () {
+    local upstream="$1"
+
+    echo
+    confirm_action "rebase on missing commits from $upstream" || return
+
+    echo "Running git rebase ..."
+    echo
+    if ! git rebase; then
+        error "git rebase failed; aborting.  Please manually fix and re-run."
+    fi
+}
+
+safe_rebase_on_upstream_batch () {
+    local upstream="$1"
+
+    if ! repo_is_clean; then
+        echo "Repo has uncommitted changes; cannot safely attempt automatic rebase."
+        return 1
+    fi
+
+    if ! git rebase "$upstream"; then
+        echo "Automatic rebase failed; aborting rebase."
+        git rebase --abort
+        return 1
+    fi
+}
+
+push_to_upstream () {
+    local upstream="$1"
+
+    echo
+    echo -e "\e[1;33m$head is ahead of $upstream by $ahead commits:\e[0m"
+    echo
+    git log "$upstream"..HEAD
+
+    HOST_NAME_FILE=$HOME/.localhost-nickname
+    if [ -f "$HOST_NAME_FILE" ] && src="$(<$HOST_NAME_FILE)" && [ -n "$src" ]; then
+        args="$remote $head:refs/remotes/$src/$head"
+        echo
+        if ! git push $args; then
+            error "git push $args failed; aborting.  Please manually fix and re-run."
+        fi
+    else
+        echo >&2
+        echo "Could not determine remote name for local repo in upstream repo; skipping update of remote tracking branch." >&2
+    fi
+
+    if is_interactive; then
+        echo
+        confirm_action "push new commits to $upstream" || return
+    fi
+
+    # See http://stackoverflow.com/questions/13015101/how-to-programmatically-predict-when-git-push-will-result-in-branch-is-currentl
+    args="$remote $head"
+    echo
+    out=$( git push $args 2>&1 )
+    success=$?
+    echo "$out"
+    if [ $success != 0 ]; then
+        case "$out" in
+            *'remote rejected'*)
+                echo "Ignoring error caused by pushing to non-bare repository."
+                ;;
+            *)
+                error "git push $args failed; aborting.  Please manually fix and re-run."
+                ;;
+        esac
+    fi
+}
+
+final_check () {
+    echo
+    if git-wip; then
+        echo -e "\e[1;31mUnresolved issues in $root:\e[0m"
+        echo
+        ggs
+    else
+        echo -e "\e[1;32mNo unresolved issues in $root :-)\e[0m"
+    fi
+}
+
+sync_with_upstream () {
+    local upstream="$1"
+
+    parse_upstream "$upstream"
+
+    echo
+    echo "git fetch $remote"
+    echo
+    if ! git fetch "$remote"; then
+        error "Failed to fetch $remote; aborting."
+    fi
+    compare_with_upstream "$upstream"
+    is_interactive && show_upstream_info "$remote"
+
+    if [ "$behind" = 0 ] && [ "$ahead" = 0 ]; then
+        echo "Already in sync with upstream."
+        return 0
+    fi
+
+    if [ "$behind" != 0 ]; then
+        rebase_on_upstream "$upstream"
+        #pull_from_upstream "$upstream"
+    fi
+
+    if [ "$ahead" != 0 ]; then
+        push_to_upstream "$upstream"
+    fi
+}
+
+me=`basename $0`
+
+usage () {
+    # Call as: usage [EXITCODE] [USAGE MESSAGE]
+    exit_code=1
+    if [[ "$1" == [0-9] ]]; then
+        exit_code="$1"
+        shift
+    fi
+    if [ -n "$1" ]; then
+        echo "$*" >&2
+        echo
+    fi
+
+    cat <<EOF >&2
+Usage: $me UPSTREAM
+EOF
+    exit "$exit_code"
+}
+
+main () {
+    root="`git root`"
+    root="${root/$HOME/~}"
+
+    if [ "$1" == '-h' ] || [ "$1" == '--help' ]; then
+        usage 0
+    fi
+
+    [ $# -gt 1 ] && usage
+
+    if [ -n "$1" ]; then
+        upstream="$1"
+    else
+        detect_upstream || exit 1
+    fi
+
+    commit_local_changes
+    sync_with_upstream "$upstream"
+    final_check
+}
+
+main "$@"

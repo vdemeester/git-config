@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# No need for this to pass parameters; instead:
+(
+cat <<'EOF'
+# Type 'git' for list of most frequently used commands
+# Type 'git $cmd -h' for quick help on $cmd
+# Type 'git $cmd --help' for long help on $cmd
+
+EOF
+
+git help -a ) \
+| $PAGER
