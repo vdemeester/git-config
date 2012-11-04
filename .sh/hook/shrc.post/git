@@ -1,0 +1,8 @@
+# Filename:     .sh/hook/shrc.post/git
+# Author:       Vincent Demeester
+# License:      This file is licensed under the GPL v2
+# --------------------------------------------------------------------------- #
+# This file sets aliases for git and related tools (like git-annex, …)
+# --------------------------------------------------------------------------- #
+alias g="git"
+alias ga="git annex"

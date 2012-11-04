@@ -22,5 +22,10 @@
 !.sh
 !.sh/completions
 !.sh/completions/_git*
+!.sh/hook
+!.sh/hook/zshrc.pre
+!.sh/hook/zshrc.pre/git
+!.sh/hook/shrc.post
+!.sh/hook/shrc.post/git
 !.gitignore.d
 !.gitignore.d/git-config
