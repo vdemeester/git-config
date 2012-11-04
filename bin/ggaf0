@@ -1,0 +1,3 @@
+#!/bin/sh
+# Look for lost data (no more copies available)
+exec git annex find --not --copies 1 "$@"

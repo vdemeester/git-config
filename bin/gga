@@ -1,0 +1,3 @@
+#!/bin/sh
+# Add a file to annex
+exec git annex add "$@"

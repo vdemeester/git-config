@@ -1,0 +1,4 @@
+#!/bin/sh
+# Look for files that have only 1 copies.
+# These files should be backed up someday & somehow.
+exec git annex find --not --copies 2 "$@"

@@ -1,0 +1,3 @@
+#!/bin/sh
+# Find annexed files
+exec git annex find "$@"

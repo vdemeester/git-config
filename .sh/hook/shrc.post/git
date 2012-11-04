@@ -4,5 +4,4 @@
 # --------------------------------------------------------------------------- #
 # This file sets aliases for git and related tools (like git-annex, …)
 # --------------------------------------------------------------------------- #
-alias g="git"
-alias ga="git annex"
+# alias g="git"

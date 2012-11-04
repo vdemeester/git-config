@@ -1,0 +1,3 @@
+#!/bin/sh
+# Find annexed file not present
+git annex find --not --in=. "$@"

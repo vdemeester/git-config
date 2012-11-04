@@ -1,0 +1,4 @@
+#!/bin/sh
+# Find duplicate annexed file
+
+exec git annex-finddups "$@"
