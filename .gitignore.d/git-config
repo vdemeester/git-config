@@ -27,6 +27,7 @@
 !.sh/hook/zshrc.pre
 !.sh/hook/zshrc.pre/git
 !.sh/hook/zshrc.pre/mr
+!.sh/hook/zshrc.pre/vcsh
 !.sh/hook/shrc.post
 !.sh/hook/shrc.post/git
 !.gitignore.d

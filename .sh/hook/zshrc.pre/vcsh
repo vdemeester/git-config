@@ -1,0 +1,16 @@
+# Filename:         .sh/hook/zshrc.pre/vcsh
+# Author:           Vincent Demeester
+# License:          This file is licensed under the GPL v2
+# --------------------------------------------------------------------------- #
+# This file add a "I'm in vcsh" stuff in the prompt
+# --------------------------------------------------------------------------- #
+#
+# {{{ PROMPT -----------------------------------------------------------------
+if test -n "${VCSH_REPO_NAME}"; then
+    _vde_add_rprompt_vcsh() {
+        print -n '${PR_GREY}(${PR_YELLOW}vcsh:${PR_NO_COLOUR}'
+        print -n '${VCSH_REPO_NAME}${PR_GREY})'
+    }
+fi
+# }}}
+# vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=4
