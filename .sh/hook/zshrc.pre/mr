@@ -1,0 +1,16 @@
+# Filename:         .sh/hook/zshrc.pre/mr
+# Author:           Vincent Demeester
+# License:          This file is licensed under the GPL v2
+# --------------------------------------------------------------------------- #
+# This file add a "I'm in mr" stuff in the prompt
+# --------------------------------------------------------------------------- #
+#
+# {{{ PROMPT -----------------------------------------------------------------
+if test -n "${MR_REPO}"; then
+    _vde_add_rprompt_mr() {
+        print -n '${PR_GREY}(${PR_YELLOW}mr:${PR_NO_COLOUR}'
+        print -n '${MR_ACTION}${PR_GREY})'
+    }
+fi
+# }}}
+# vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=4
