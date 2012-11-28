@@ -1,0 +1,17 @@
+#!/bin/sh
+# Check and notify the status of a git repository
+REPOSITORY=$1
+test -z "${REPOSITORY}" && REPOSITORY="$PWD"
+GIT_ARGS="--work-tree=$REPOSITORY --git-dir=$REPOSITORY/.git"
+
+export DISPLAY=:0
+
+if test -n "$(git ${GIT_ARGS} status --porcelain)"; then
+    if test -n "$(git ${GIT_ARGS} diff --exit-code)"; then
+        notify-send "${REPOSITORY} not up-to-date" "Some modification are to be added and commited"
+    elif test -n "$(git ${GIT_ARGS} diff --cached --exit-code)"; then
+        notify-send "${REPOSITORY} not up-to-date" "Some modification are to be commited"
+    else
+        notify-send "${REPOSITORY} has some non-tracked non-ignored files"
+    fi
+fi
