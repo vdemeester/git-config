@@ -11,6 +11,7 @@
 !.config/git
 !.config/git/config.d
 !.config/git/config.d/00-default
+!.config/git/config.d/01-configuration
 !.config/git/hooks.d
 !.config/git/hooks.d/*
 !.config/git/hooks.d/*/*
