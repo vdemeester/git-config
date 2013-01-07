@@ -1,6 +1,6 @@
 [url "git://github.com/vdemeester/"]
-    insteadOf = "conf:"
+    insteadOf = "config:"
 [url "git@github.com:vdemeester/"]
-    pushInsteadOf = "conf:"
+    pushInsteadOf = "config:"
 [url "git@nofau.lt:private/vincent/"]
-    insteadOf = "conf-private:"
+    insteadOf = "config-private:"
