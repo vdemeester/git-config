@@ -1,0 +1,2 @@
+#!/bin/sh
+git annex find . --include "*$@*" --not --in here --print0 | xargs -0 git annex get
