@@ -7,6 +7,7 @@
 	st = status
 	ci = commit
 	civ = commit -v
+    cim = !"command -v mvn >/dev/null && test -f ./pom.xml && mvn clean test && git commit"
 	br = branch
     unstage = reset HEAD
     lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
