@@ -54,7 +54,3 @@
 	editor = gvim
 [merge]
     tool = vimdiff
-[url "git@nofau.lt:"]
-    pushInsteadOf = git://nofau.lt/
-[url "git@github.com:"]
-    pushInsteadOf = git://github.com/
