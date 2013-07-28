@@ -6,5 +6,5 @@
     insteadOf = "config:"
 [url "git@github.com:vdemeester/"]
     pushInsteadOf = "config:"
-[url "git@nofau.lt:private/vincent/"]
-    insteadOf = "config-private:"
+[url "git@sbr.io:private/vincent/"]
+	insteadOf = config-private:
