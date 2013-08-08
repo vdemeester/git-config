@@ -54,3 +54,5 @@
 	editor = gvim
 [merge]
     tool = vimdiff
+[web]
+    browser = w3m

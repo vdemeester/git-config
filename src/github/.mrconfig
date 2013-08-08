@@ -2,6 +2,7 @@
 lib=
     GITHUB_USER=$(basename ${MR_REPO%/${MR_NAME}})
 checkout = github_clone
+skip = lazy
 
 [37signals/pow]
 [37signals/resque]
