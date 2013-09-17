@@ -79,6 +79,7 @@
 
     _vde_vcs_precmd () {
         vcs_info
+        # hash -d g=$(git rev-parse --show-toplevel)
     }
     add-zsh-hook precmd _vde_vcs_precmd
 
