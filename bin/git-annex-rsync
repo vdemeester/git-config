@@ -1,0 +1,18 @@
+#!/bin/sh
+# A script that sync a git-annex folder in a flat folder
+# using rsync
+SELF=$(basename $0)
+set -e
+# Env.
+test -z "$RSYNC_EXCLUDES" && RSYNC_EXCLUDES={.git,archive}
+# Checks
+check-command rsync $SELF
+
+git root >/dev/null
+RSYNC_SOURCE="$(git root)/"
+RSYNC_DESTINATION=$1
+RSYNC_OPTIONS_ADDITIONALS=$2
+
+RSYNC_OPTIONS="-ave ssh --copy-links --copy-dirlinks --progress --size-only --exclude=.git --exclude=.gitattributes --exclude=archive --ignore-errors --delete --delete-before --prune-empty-dirs"
+
+rsync $RSYNC_OPTIONS $RSYNC_SOURCE $RSYNC_DESTINATION $RSYNC_OPTIONS_ADDITIONALS 2>/dev/null
