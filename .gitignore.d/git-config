@@ -1,6 +1,7 @@
 *
 !bin
 !bin/git-*
+bin/git-annex*
 !bin/gg*
 !bin/github-*
 !bin/gfind
