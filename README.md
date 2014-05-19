@@ -15,7 +15,6 @@ This repository currently contains :
   me or from others like @aspiers, etc…).
 * A modular configuration, generating the final ``.gitconfig``.
 * Some shell stuff (completion, prompt modification, etc…)
-* A ``.mrconfig`` for the github repositories I usually check out.
 
 [git]: http://git-scm.com
 [git-annex]: http://git-annex.branchable.com
