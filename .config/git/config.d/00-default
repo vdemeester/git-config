@@ -3,12 +3,13 @@
 	name = Vincent Demeester
 	email = vincent+git@demeester.fr
 [alias]
-	co = checkout
-	st = status
-	ci = commit
-	civ = commit -v
+    co = checkout
+    st = status
+    ci = commit
+    civ = commit -v
+    wdiff = diff --color-words
     cim = !"command -v mvn >/dev/null && test -f ./pom.xml && mvn clean test && git commit"
-	br = branch
+    br = branch
     unstage = reset HEAD
     lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
     lga = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative --branches --remotes
