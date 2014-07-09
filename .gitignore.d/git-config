@@ -5,6 +5,7 @@ bin/git-annex*
 !bin/gg*
 !bin/github-*
 !bin/gfind
+!bin/gcd
 !src
 !src/github
 !src/github/.mrconfig
