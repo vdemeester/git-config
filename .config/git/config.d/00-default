@@ -49,10 +49,9 @@
 	untracked = red
 [core]
 	excludesfile = ~/.gitignore_global
+	editor = emacsclient -t
 [push]
 	default = matching
-[gui]
-	editor = gvim
 [merge]
     tool = vimdiff
 [web]
