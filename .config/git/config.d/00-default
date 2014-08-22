@@ -1,7 +1,4 @@
 # vim: syntax=gitconfig
-[user]
-	name = Vincent Demeester
-	email = vincent+git@demeester.fr
 [alias]
     co = checkout
     st = status
