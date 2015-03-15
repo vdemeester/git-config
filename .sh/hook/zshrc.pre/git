@@ -11,15 +11,15 @@
 
     __() {
         local r='${PR_NO_COLOUR}'
-        local start='${PR_GREY}['$r
-        local end='${PR_GREY}]'$r'${PR_CYAN}$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT'
-        local astart='${PR_RED}{'$r
-        local aend='${PR_RED}}'$r
+        local start='${BG_PR_GREEN}'
+        local end=''$r
+        local astart='${BG_PR_CYAN}{'
+        local aend='${BG_PR_CYAN}}'$r
         zstyle ':vcs_info:*' check-for-changes true
-        zstyle ':vcs_info:*' stagedstr '$PR_LIGHT_GREEN^$r'
-        zstyle ':vcs_info:*' unstagedstr '$PR_LIGHT_YELLOW!$r'
-        zstyle ':vcs_info:*' formats $start'%c%u%b%m'$end
-        zstyle ':vcs_info:*' actionformats $start'%c%u%b%m'$end''$astart'%B%s-%a%%b}'$aend
+        zstyle ':vcs_info:*' stagedstr '${BG_PR_RED}'
+        zstyle ':vcs_info:*' unstagedstr ' ${PR_YELLOW}*${PR_WHITE}'
+        zstyle ':vcs_info:*' formats $start'%c %b%m%u '$end
+        zstyle ':vcs_info:*' actionformats $start'%c %b %m%u'$end''$astart'%B%s-%a%%b}'$aend
         zstyle ':vcs_info:git*+set-message:*' hooks git-untracked git-aheadbehind git-remotebranch
 
         # {{{ vi-git-untracked -----------------------------------------------
@@ -32,7 +32,8 @@
                 # If instead you want to show the marker only if there are untracked
                 # files in $PWD, use:
                 #[[ -n $(git ls-files --others --exclude-standard) ]] ; then
-                hook_com[unstaged]+='%B%F{magenta}?%f%b'
+                # hook_com[unstaged]+='%B%F{magenta}?%f%b'
+                hook_com[unstaged]+=' …'
             fi
         }
         # }}}
@@ -46,12 +47,12 @@
             # for git prior to 1.7
             # ahead=$(git rev-list origin/${hook_com[branch]}..HEAD | wc -l)
             ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
-            (( $ahead )) && gitstatus+=( "%B%F{blue}+${ahead}%f%b" )
+            (( $ahead )) && gitstatus+=( "%F{black}+${ahead}%f" )
 
             # for git prior to 1.7
             # behind=$(git rev-list HEAD..origin/${hook_com[branch]} | wc -l)
             behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
-            (( $behind )) && gitstatus+=( "%B%F{red}-${behind}%f%b" )
+            (( $behind )) && gitstatus+=( "%F{red}-${behind}%f" )
 
             hook_com[misc]+=${(j::)gitstatus}
         }
@@ -71,7 +72,7 @@
             # differs from the local one.
             #if [[ -n ${remote} ]] ; then
             if [[ -n ${remote} && ${remote#*/} != ${hook_com[branch]} ]] ; then
-                hook_com[branch]="${hook_com[branch]}(%F{cyan}${remote}%f)"
+                hook_com[branch]="${hook_com[branch]}%F{black} ⬅${remote}%f"
             fi
         }
         # }}}
@@ -89,3 +90,4 @@
 }
 # }}}
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=4
+# -*- mode: sh-mode;-*-
