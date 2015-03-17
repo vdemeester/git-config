@@ -7,9 +7,9 @@
 #
 # {{{ PROMPT -----------------------------------------------------------------
 if test -n "${VCSH_REPO_NAME}"; then
-    _vde_add_rprompt_vcsh() {
-        print -n '${PR_GREY}(${PR_YELLOW}vcsh:${PR_NO_COLOUR}'
-        print -n '${VCSH_REPO_NAME}${PR_GREY})'
+    _vde_add_lprompt_vcsh() {
+        print -n '${BG_PR_YELLOW} ${PR_WHITE}Φ '
+        print -n '${PR_GREY}${VCSH_REPO_NAME} '
     }
 fi
 # }}}
