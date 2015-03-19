@@ -7,9 +7,8 @@
 #
 # {{{ PROMPT -----------------------------------------------------------------
 if test -n "${MR_REPO}"; then
-    _vde_add_rprompt_mr() {
-        print -n '${PR_GREY}(${PR_YELLOW}mr:${PR_NO_COLOUR}'
-        print -n '${MR_ACTION}${PR_GREY})'
+    _vde_add_lprompt_mr() {
+        print -n '${BG_PR_BLUE}${PR_GREY} μ ${PR_WHITE}${MR_ACTION}'
     }
 fi
 # }}}
