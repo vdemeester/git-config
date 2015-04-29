@@ -4,6 +4,8 @@
     st = status
     ci = commit
     civ = commit -v
+    cis = commit --signoff
+    cids = commit --signoff --date="$(date -R)"
     wdiff = diff --color-words
     cim = !"command -v mvn >/dev/null && test -f ./pom.xml && mvn clean test && git commit"
     br = branch
