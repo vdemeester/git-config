@@ -34,8 +34,8 @@
 	diff = auto
 	status = auto
 [color "branch"]
-	current = white reverse
-	local = white 
+	current = blue reverse
+	local = blue
 	remote = green
 [color "diff"]
 	meta = white
