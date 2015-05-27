@@ -11,13 +11,13 @@
 
     __() {
         local r='${PR_NO_COLOUR}'
-        local start='${BG_PR_GREEN}'
+        local start='${BG_PR_GREEN}${PR_WHITE}'
         local end=''$r
         local astart='${BG_PR_CYAN}{'
         local aend='${BG_PR_CYAN}}'$r
         zstyle ':vcs_info:*' check-for-changes true
         zstyle ':vcs_info:*' stagedstr '${BG_PR_RED}'
-        zstyle ':vcs_info:*' unstagedstr ' ${PR_YELLOW}*${PR_WHITE}'
+        zstyle ':vcs_info:*' unstagedstr ' ${PR_YELLOW}*${PR_GREY}'
         zstyle ':vcs_info:*' formats $start'%c %b%m%u '$end
         zstyle ':vcs_info:*' actionformats $start'%c %b %m%u'$end''$astart'%B%s-%a%%b}'$aend
         zstyle ':vcs_info:git*+set-message:*' hooks git-untracked git-aheadbehind git-remotebranch
