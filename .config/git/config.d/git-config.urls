@@ -8,5 +8,3 @@
     pushInsteadOf = "config:"
 [url "git@sbr.io:private/vincent/"]
 	insteadOf = config-private:
-[url "https://github.com/"]
-    insteadOf = github:
