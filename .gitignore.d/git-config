@@ -89,6 +89,7 @@
 !/bin/git-hooks
 !/bin/github-mr-update
 !/bin/git-ignore
+!/bin/git-pr
 !/bin/git-prefix
 !/bin/git-rewrite-author
 !/bin/git-rewrite-author-filter

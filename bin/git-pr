@@ -1,0 +1,11 @@
+#!/bin/sh
+# Ugly git "get that pr"
+
+set -e
+
+REMOTE=$1
+shift
+PR_NUMBER=$1
+shift
+
+git fetch ${REMOTE} pull/${PR_NUMBER}/head:pr-${PR_NUMBER}
