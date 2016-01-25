@@ -48,7 +48,7 @@
 	untracked = red
 [core]
 	excludesfile = ~/.gitignore_global
-	editor = emacsclient -t
+	editor = et
 [push]
 	default = matching
 [merge]
