@@ -2,9 +2,12 @@
 [alias]
     co = checkout
     st = status
-    ci = commit
+    ci = commit --signoff
+    cia = commit --amend
+    ciad = commit --amend --date=\"$(date -R)\"
+    ciads = commit --amend --date=\"$(date -R)\" -S
     civ = commit -v
-    cis = commit --signoff
+    cis = commit --signoff -S
     cids = commit --signoff --date=\"$(date -R)\"
     wdiff = diff --color-words
     cim = !"command -v mvn >/dev/null && test -f ./pom.xml && mvn clean test && git commit"
