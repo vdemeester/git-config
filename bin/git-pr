@@ -3,8 +3,10 @@
 
 set -e
 
-REMOTE=$1
-shift
+if test -z "${REMOTE}"; then
+    REMOTE="upstream"
+fi
+
 PR_NUMBER=$1
 shift
 
