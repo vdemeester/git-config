@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 confdir=$HOME/.config/git
 confsubdir=$confdir/config.d
