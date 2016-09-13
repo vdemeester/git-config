@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # shows absolute path to parent of .git directory
 # (i.e. the working directory)

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # git-update-all
 # Shell script to update each git repository that is in the current directory
 # or the given(s) directory(ies).

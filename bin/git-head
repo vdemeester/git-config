@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # http://stackoverflow.com/questions/1417957/show-just-the-current-branch-in-git
 

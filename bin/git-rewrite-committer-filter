@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # N.B. this file is source'd by git-rewrite-committer, not executed!
 

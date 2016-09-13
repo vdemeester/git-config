@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if ! git config user.email >/dev/null; then
     cat <<EOF >&2
