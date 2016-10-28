@@ -10,4 +10,10 @@ fi
 PR_NUMBER=$1
 shift
 
+git rev-parse --verify pr-${PR_NUMBER} && {
+    echo ">> pr branch already exists, force-updating it"
+    git checkout master
+    git br -D pr-${PR_NUMBER}
+} || echo
+
 git fetch ${REMOTE} pull/${PR_NUMBER}/head:pr-${PR_NUMBER}
