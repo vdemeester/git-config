@@ -1,3 +1,0 @@
-#!/bin/sh
-# Lock annexd file
-exec git annex lock "$@"

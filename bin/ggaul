@@ -1,3 +1,0 @@
-#!/bin/sh
-# Unlock annexed file
-exec git annex unlock "$@"

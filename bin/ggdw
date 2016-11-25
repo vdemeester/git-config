@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-if [ "$1" = '--help' ]; then
-    exec git diff "$@"
-fi
-
-exec git diff --color-words "$@"

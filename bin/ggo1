@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-export GIT_PAGER_MODE=none
-ggo --decorate --pretty=oneline --abbrev-commit "$@"

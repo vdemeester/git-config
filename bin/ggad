@@ -1,3 +1,0 @@
-#!/bin/sh
-# Drop a file from working directory
-exec git annex drop "$@"

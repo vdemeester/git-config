@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-if [ "$1" = '--help' ]; then
-    exec git rebase "$@"
-fi
-
-exec git rebase --abort "$@"

@@ -1,3 +1,0 @@
-#!/bin/sh
-# Get annexed file
-exec git annex get "$@"

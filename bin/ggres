@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-# Git REmote Seturl
-
-if [ $# = 0 ]; then
-    exec git remote -v
-else
-    exec git remote set-url "$@"
-fi

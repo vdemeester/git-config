@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# git Outgoing -p
-
-ggo -p "$@"

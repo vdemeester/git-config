@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+export GIT_PAGER_MODE=none
+git outgoing --decorate --pretty=oneline --abbrev-commit "$@"

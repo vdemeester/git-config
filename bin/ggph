@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-if ! git check-email; then
-    echo
-    echo "Aborting push; please fix email first."
-    exit $?
-fi
-
-exec git push "$@"

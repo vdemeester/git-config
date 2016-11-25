@@ -1,3 +1,0 @@
-#!/bin/sh
-# Whereis on annexed file not present
-exec git annex whereis --not --in=. "$@"

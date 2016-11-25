@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-# git Outgoing --stat
-
-export GIT_PAGER_MODE=log
-ggo --stat=120,140 "$@"

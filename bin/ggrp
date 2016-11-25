@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-if [ -z "$1" ]; then
-    set HEAD
-fi
-
-exec git rev-parse "$@"
