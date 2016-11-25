@@ -1,10 +1,6 @@
-[url "git@nofau.lt:"]
-    pushInsteadOf = git://nofau.lt/
 [url "git@github.com:"]
     pushInsteadOf = git://github.com/
 [url "git://github.com/vdemeester/"]
     insteadOf = "config:"
 [url "git@github.com:vdemeester/"]
     pushInsteadOf = "config:"
-[url "git@sbr.io:private/vincent/"]
-	insteadOf = config-private:
