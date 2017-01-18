@@ -64,3 +64,5 @@
     tool = vimdiff
 [web]
     browser = w3m
+[gpg]
+    program = gpg2
