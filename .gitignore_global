@@ -1,0 +1,10 @@
+# intellij & jetbrain products
+.idea
+*.iml
+
+# python
+*.pyc
+*.pyo
+
+.envrc
+default.nix
