@@ -56,7 +56,7 @@
 	changed = yellow
 	untracked = red
 [core]
-	excludesfile = ~/.gitignore_global
+	excludesfile = ~/.gitignore.global
 	editor = et
 [push]
 	default = matching
